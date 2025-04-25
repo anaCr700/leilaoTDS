@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.Connection;
 import javax.swing.JOptionPane;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 
@@ -28,7 +29,6 @@ public class ProdutosDAO {
       conectaDAO conexao= new conectaDAO();
       conexao.conectar();
     
-        
         String sql="insert into produtos (nome, valor,status) values"+"(?,?,?)";
         PreparedStatement st= conexao.getConexao().prepareStatement(sql);
 
@@ -43,12 +43,33 @@ public class ProdutosDAO {
     
     
     public ArrayList<ProdutosDTO> listarProdutos(){
+       try{
+        conectaDAO conexao= new conectaDAO();
+      conexao.conectar();
+        
+        String  sql= "select*from produtos";
+        
+        PreparedStatement st= conexao.getConexao().prepareStatement(sql);
+        
+        ResultSet rs= st.executeQuery();
+        
+        ArrayList<ProdutosDTO> listagem= new ArrayList<>();
+        
+        while(rs.next()){
+            ProdutosDTO pdto= new ProdutosDTO();
+            
+            pdto.setId(rs.getInt("id"));
+            pdto.setNome(rs.getString("nome"));
+            pdto.setValor(rs.getInt("valor"));
+            pdto.setStatus(rs.getString("status"));
+            listagem.add(pdto);}
         
         return listagem;
-    }
+        }
     
-    
-    
-        
-}
+       catch(Exception e){
+           return null;
+       }
+    }}
+      
 

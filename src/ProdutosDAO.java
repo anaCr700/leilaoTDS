@@ -92,6 +92,25 @@ public class ProdutosDAO {
         
         }
 
+        public void pVendidos(String status){
+           try{
+               conectaDAO conexao= new conectaDAO();
+                  conexao.conectar();
+      
+            String sql=" select*from produtos where status='Vendido'";
+            
+            PreparedStatement st= conexao.getConexao().prepareStatement(sql);
+           
+             ProdutosDTO pdto= new ProdutosDTO();
+             
+              st.setString(1, status);
+              st.execute();
+                         }
+           catch(Exception e){
+               System.out.println("erro ao atualizar status"+e.getMessage());
+           }
+        
+        }
 }
       
 

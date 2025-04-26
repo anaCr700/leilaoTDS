@@ -70,6 +70,28 @@ public class ProdutosDAO {
        catch(Exception e){
            return null;
        }
-    }}
+    }
+
+        public void venderProduto(int id){
+           try{
+               conectaDAO conexao= new conectaDAO();
+                  conexao.conectar();
+      
+            String sql="update produtos set status='Vendido' where id=?";
+            
+            PreparedStatement st= conexao.getConexao().prepareStatement(sql);
+           
+             ProdutosDTO pdto= new ProdutosDTO();
+             
+              st.setInt(1, id);
+              st.execute();
+                         }
+           catch(Exception e){
+               System.out.println("erro ao atualizar status"+e.getMessage());
+           }
+        
+        }
+
+}
       
 
